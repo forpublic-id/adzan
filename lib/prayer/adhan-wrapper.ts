@@ -20,8 +20,7 @@ export function calculatePrayerTimes(
   const timezone = getIndonesianTimezone(longitude);
   
   // Calculate Qibla direction
-  const qibla = new Qibla(coordinates);
-  const qiblaDirection = qibla.direction;
+  const qiblaDirection = Qibla(coordinates);
 
   // Format prayer times
   const times = {
@@ -181,8 +180,7 @@ export function getCurrentLocation(): Promise<LocationInfo> {
  */
 export function calculateQiblaDirection(latitude: number, longitude: number): number {
   const coordinates = new Coordinates(latitude, longitude);
-  const qibla = new Qibla(coordinates);
-  return qibla.direction;
+  return Qibla(coordinates);
 }
 
 // Helper functions

@@ -65,17 +65,19 @@ export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerT
     };
 
     fetchPrayerTimes();
+  }, []);
 
-    // Update next prayer every second
+  // Separate effect for updating next prayer countdown
+  useEffect(() => {
+    if (!prayerTimes) return;
+
     const interval = setInterval(() => {
-      if (prayerTimes) {
-        const next = getNextPrayerTime(prayerTimes);
-        setNextPrayer(next);
-      }
+      const next = getNextPrayerTime(prayerTimes);
+      setNextPrayer(next);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [prayerTimes]);
 
   const currentHour = new Date().getHours();
   const greeting = getIslamicGreeting(currentHour);
