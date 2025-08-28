@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "prayerServices": "Prayer Services",
+    "islamicTools": "Islamic Tools",
+    "prayerTimes": "Prayer Times",
+    "qibla": "Qibla Direction",
+    "calendar": "Islamic Calendar",
+    "mosques": "Nearby Mosques",
+    "content": "Daily Content",
+    "settings": "Settings",
+    "about": "About"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "prayerServices": "Layanan Shalat",
+    "islamicTools": "Alat Islami",
+    "prayerTimes": "Jadwal Shalat",
+    "qibla": "Arah Kiblat",
+    "calendar": "Kalender Hijriah",
+    "mosques": "Masjid Terdekat",
+    "content": "Konten Harian",
+    "settings": "Pengaturan",
+    "about": "Tentang"
+  }
+}

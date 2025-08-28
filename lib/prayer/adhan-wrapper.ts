@@ -1,9 +1,14 @@
 // Prayer time calculation wrapper using adhan.js library
 // Implements Kemenag Indonesia standards for accurate Islamic prayer times
 
-import { PrayerTimes, Coordinates, Qibla } from 'adhan';
-import { PrayerTimesData, PrayerTime, NextPrayerInfo, LocationInfo } from '@/lib/types/prayer';
-import { KemenagCalculationParams, prayerNames } from './kemenag-params';
+import { PrayerTimes, Coordinates, Qibla } from "adhan";
+import {
+  PrayerTimesData,
+  PrayerTime,
+  NextPrayerInfo,
+  LocationInfo,
+} from "@/lib/types/prayer";
+import { KemenagCalculationParams, prayerNames } from "./kemenag-params";
 
 /**
  * Calculate prayer times for given location and date using Kemenag parameters
@@ -11,85 +16,137 @@ import { KemenagCalculationParams, prayerNames } from './kemenag-params';
 export function calculatePrayerTimes(
   latitude: number,
   longitude: number,
-  date: Date = new Date()
+  date: Date = new Date(),
 ): PrayerTimesData {
-  const coordinates = new Coordinates(latitude, longitude);
-  const prayerTimes = new PrayerTimes(coordinates, date, KemenagCalculationParams);
-  
-  // Determine timezone based on longitude (Indonesia specific)
-  const timezone = getIndonesianTimezone(longitude);
-  
-  // Calculate Qibla direction
-  const qiblaDirection = Qibla(coordinates);
+  try {
+    // Validate input coordinates
+    if (isNaN(latitude) || isNaN(longitude) || 
+        latitude < -90 || latitude > 90 || 
+        longitude < -180 || longitude > 180) {
+      throw new Error(`Invalid coordinates: lat=${latitude}, lng=${longitude}`);
+    }
 
-  // Format prayer times
-  const times = {
-    fajr: formatTime(prayerTimes.fajr),
-    sunrise: formatTime(prayerTimes.sunrise),
-    dhuhr: formatTime(prayerTimes.dhuhr),
-    asr: formatTime(prayerTimes.asr),
-    maghrib: formatTime(prayerTimes.maghrib),
-    isha: formatTime(prayerTimes.isha),
-  };
+    const coordinates = new Coordinates(latitude, longitude);
+    const prayerTimes = new PrayerTimes(
+      coordinates,
+      date,
+      KemenagCalculationParams,
+    );
 
-  return {
-    location: {
-      city: '', // To be filled by geocoding
-      coordinates: { latitude, longitude },
-      timezone,
-    },
-    date: {
-      gregorian: date.toISOString().split('T')[0],
-      hijri: getHijriDate(date),
-    },
-    times,
-    qibla: {
-      direction: qiblaDirection,
-    },
-    calculationMethod: 'Kemenag Indonesia',
-    lastUpdated: new Date().toISOString(),
-  };
+    // Determine timezone based on longitude (Indonesia specific)
+    const timezone = getIndonesianTimezone(longitude);
+
+    // Calculate Qibla direction with error handling
+    let qiblaDirection = 0;
+    try {
+      qiblaDirection = Qibla(coordinates);
+      if (isNaN(qiblaDirection)) {
+        qiblaDirection = 0;
+      }
+    } catch (error) {
+      console.error('Error calculating Qibla direction:', error);
+      qiblaDirection = 0;
+    }
+
+    // Format prayer times with validation
+    const times = {
+      fajr: formatTime(prayerTimes.fajr),
+      sunrise: formatTime(prayerTimes.sunrise),
+      dhuhr: formatTime(prayerTimes.dhuhr),
+      asr: formatTime(prayerTimes.asr),
+      maghrib: formatTime(prayerTimes.maghrib),
+      isha: formatTime(prayerTimes.isha),
+    };
+
+    return {
+      location: {
+        city: "", // To be filled by geocoding
+        coordinates: { latitude, longitude },
+        timezone,
+      },
+      date: {
+        gregorian: date.toISOString().split("T")[0],
+        hijri: getHijriDate(date),
+      },
+      times,
+      qibla: {
+        direction: qiblaDirection,
+      },
+      calculationMethod: "Kemenag Indonesia",
+      lastUpdated: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.error('Error calculating prayer times:', error);
+    
+    // Return fallback prayer times for Jakarta
+    return {
+      location: {
+        city: "Jakarta (Fallback)",
+        coordinates: { latitude: -6.2088, longitude: 106.8456 },
+        timezone: "WIB",
+      },
+      date: {
+        gregorian: date.toISOString().split("T")[0],
+        hijri: getHijriDate(date),
+      },
+      times: {
+        fajr: "04:45",
+        sunrise: "05:58",
+        dhuhr: "12:15",
+        asr: "15:30",
+        maghrib: "18:32",
+        isha: "19:45",
+      },
+      qibla: {
+        direction: 294.5, // Qibla from Jakarta
+      },
+      calculationMethod: "Kemenag Indonesia (Fallback)",
+      lastUpdated: new Date().toISOString(),
+    };
+  }
 }
 
 /**
  * Get next prayer time with countdown
  */
-export function getNextPrayerTime(prayerTimesData: PrayerTimesData): NextPrayerInfo | null {
+export function getNextPrayerTime(
+  prayerTimesData: PrayerTimesData,
+): NextPrayerInfo | null {
   const now = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
+
   // Convert prayer time strings to Date objects
   const prayerTimesList: PrayerTime[] = [
     {
-      name: 'fajr',
+      name: "fajr",
       time: parseTimeString(prayerTimesData.times.fajr, today),
       arabicName: prayerNames.fajr.arabic,
       indonesianName: prayerNames.fajr.id,
       englishName: prayerNames.fajr.en,
     },
     {
-      name: 'dhuhr',
+      name: "dhuhr",
       time: parseTimeString(prayerTimesData.times.dhuhr, today),
       arabicName: prayerNames.dhuhr.arabic,
       indonesianName: prayerNames.dhuhr.id,
       englishName: prayerNames.dhuhr.en,
     },
     {
-      name: 'asr',
+      name: "asr",
       time: parseTimeString(prayerTimesData.times.asr, today),
       arabicName: prayerNames.asr.arabic,
       indonesianName: prayerNames.asr.id,
       englishName: prayerNames.asr.en,
     },
     {
-      name: 'maghrib',
+      name: "maghrib",
       time: parseTimeString(prayerTimesData.times.maghrib, today),
       arabicName: prayerNames.maghrib.arabic,
       indonesianName: prayerNames.maghrib.id,
       englishName: prayerNames.maghrib.en,
     },
     {
-      name: 'isha',
+      name: "isha",
       time: parseTimeString(prayerTimesData.times.isha, today),
       arabicName: prayerNames.isha.arabic,
       indonesianName: prayerNames.isha.id,
@@ -97,9 +154,9 @@ export function getNextPrayerTime(prayerTimesData: PrayerTimesData): NextPrayerI
     },
   ];
 
-  // Find next prayer
+  // Find next prayer (only consider valid prayer times)
   for (const prayer of prayerTimesList) {
-    if (prayer.time > now) {
+    if (!isNaN(prayer.time.getTime()) && prayer.time > now) {
       const timeDiff = prayer.time.getTime() - now.getTime();
       const hours = Math.floor(timeDiff / (1000 * 60 * 60));
       const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -118,10 +175,13 @@ export function getNextPrayerTime(prayerTimesData: PrayerTimesData): NextPrayerI
   const tomorrowPrayerTimes = calculatePrayerTimes(
     prayerTimesData.location.coordinates.latitude,
     prayerTimesData.location.coordinates.longitude,
-    tomorrow
+    tomorrow,
   );
 
-  const fajrTomorrow = parseTimeString(tomorrowPrayerTimes.times.fajr, tomorrow);
+  const fajrTomorrow = parseTimeString(
+    tomorrowPrayerTimes.times.fajr,
+    tomorrow,
+  );
   const timeDiff = fajrTomorrow.getTime() - now.getTime();
   const hours = Math.floor(timeDiff / (1000 * 60 * 60));
   const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
@@ -129,7 +189,7 @@ export function getNextPrayerTime(prayerTimesData: PrayerTimesData): NextPrayerI
 
   return {
     prayer: {
-      name: 'fajr',
+      name: "fajr",
       time: fajrTomorrow,
       arabicName: prayerNames.fajr.arabic,
       indonesianName: prayerNames.fajr.id,
@@ -145,22 +205,22 @@ export function getNextPrayerTime(prayerTimesData: PrayerTimesData): NextPrayerI
 export function getCurrentLocation(): Promise<LocationInfo> {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error('Geolocation is not supported by this browser.'));
+      reject(new Error("Geolocation is not supported by this browser."));
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
       (position: GeolocationPosition) => {
         const { latitude, longitude, accuracy } = position.coords;
-        
+
         resolve({
-          city: '', // To be filled by reverse geocoding
-          province: '',
-          country: 'Indonesia',
+          city: "", // To be filled by reverse geocoding
+          province: "",
+          country: "Indonesia",
           coordinates: { latitude, longitude },
           timezone: getIndonesianTimezone(longitude),
           accuracy: accuracy || 0,
-          source: 'gps',
+          source: "gps",
         });
       },
       (error: GeolocationPositionError) => {
@@ -170,7 +230,7 @@ export function getCurrentLocation(): Promise<LocationInfo> {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 300000, // 5 minutes cache
-      }
+      },
     );
   });
 }
@@ -178,7 +238,10 @@ export function getCurrentLocation(): Promise<LocationInfo> {
 /**
  * Calculate Qibla direction from given coordinates
  */
-export function calculateQiblaDirection(latitude: number, longitude: number): number {
+export function calculateQiblaDirection(
+  latitude: number,
+  longitude: number,
+): number {
   const coordinates = new Coordinates(latitude, longitude);
   return Qibla(coordinates);
 }
@@ -186,32 +249,56 @@ export function calculateQiblaDirection(latitude: number, longitude: number): nu
 // Helper functions
 
 function formatTime(date: Date): string {
-  return date.toLocaleTimeString('id-ID', {
-    hour: '2-digit',
-    minute: '2-digit',
+  if (!date || isNaN(date.getTime())) {
+    console.error('Invalid date for formatTime:', date);
+    return "00:00";
+  }
+  
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   });
 }
 
 function parseTimeString(timeString: string, baseDate: Date): Date {
-  const [hours, minutes] = timeString.split(':').map(Number);
+  if (!timeString || typeof timeString !== 'string') {
+    console.error('Invalid timeString:', timeString);
+    return new Date(NaN);
+  }
+  
+  const parts = timeString.split(":");
+  if (parts.length !== 2) {
+    console.error('Invalid time format:', timeString);
+    return new Date(NaN);
+  }
+  
+  const [hours, minutes] = parts.map(Number);
+  
+  if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    console.error('Invalid time values:', { hours, minutes, timeString });
+    return new Date(NaN);
+  }
+  
   const date = new Date(baseDate);
   date.setHours(hours, minutes, 0, 0);
   return date;
 }
 
-function getIndonesianTimezone(longitude: number): 'WIB' | 'WITA' | 'WIT' {
+function getIndonesianTimezone(longitude: number): "WIB" | "WITA" | "WIT" {
   // Indonesia timezone boundaries (approximate)
-  if (longitude < 120) return 'WIB';   // Western Indonesia Time (UTC+7)
-  if (longitude < 135) return 'WITA';  // Central Indonesia Time (UTC+8)
-  return 'WIT';                        // Eastern Indonesia Time (UTC+9)
+  if (longitude < 120) return "WIB"; // Western Indonesia Time (UTC+7)
+  if (longitude < 135) return "WITA"; // Central Indonesia Time (UTC+8)
+  return "WIT"; // Eastern Indonesia Time (UTC+9)
 }
 
 function getHijriDate(gregorianDate: Date): string {
   // Simple Hijri date calculation (approximation)
   // In production, use a proper Hijri calendar library
-  const hijriEpoch = new Date('622-07-16'); // Approximate start of Islamic calendar
-  const daysDiff = Math.floor((gregorianDate.getTime() - hijriEpoch.getTime()) / (1000 * 60 * 60 * 24));
+  const hijriEpoch = new Date("622-07-16"); // Approximate start of Islamic calendar
+  const daysDiff = Math.floor(
+    (gregorianDate.getTime() - hijriEpoch.getTime()) / (1000 * 60 * 60 * 24),
+  );
   const hijriYear = Math.floor(daysDiff / 354.37) + 1; // Islamic year is ~354.37 days
   const hijriMonth = Math.floor((daysDiff % 354.37) / 29.53) + 1;
   const hijriDay = Math.floor((daysDiff % 354.37) % 29.53) + 1;
@@ -224,18 +311,25 @@ function getHijriDate(gregorianDate: Date): string {
  */
 export function validatePrayerTimes(prayerTimesData: PrayerTimesData): boolean {
   const { times } = prayerTimesData;
-  
+
   // Basic validation: times should be in chronological order
-  const timeOrder = [times.fajr, times.sunrise, times.dhuhr, times.asr, times.maghrib, times.isha];
-  
+  const timeOrder = [
+    times.fajr,
+    times.sunrise,
+    times.dhuhr,
+    times.asr,
+    times.maghrib,
+    times.isha,
+  ];
+
   for (let i = 1; i < timeOrder.length; i++) {
     const prevTime = parseTimeString(timeOrder[i - 1], new Date());
     const currentTime = parseTimeString(timeOrder[i], new Date());
-    
+
     if (currentTime <= prevTime) {
       return false;
     }
   }
-  
+
   return true;
 }

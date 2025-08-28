@@ -1,17 +1,17 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
  * Format time for display in Indonesian format
  */
 export function formatIndonesianTime(date: Date): string {
-  return date.toLocaleTimeString('id-ID', {
-    hour: '2-digit',
-    minute: '2-digit',
+  return date.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
     hour12: false,
   });
 }
@@ -20,11 +20,11 @@ export function formatIndonesianTime(date: Date): string {
  * Format date for display in Indonesian format
  */
 export function formatIndonesianDate(date: Date): string {
-  return date.toLocaleDateString('id-ID', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+  return date.toLocaleDateString("id-ID", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
@@ -49,22 +49,22 @@ export function calculateDistance(
   lat1: number,
   lng1: number,
   lat2: number,
-  lng2: number
+  lng2: number,
 ): number {
   const R = 6371; // Earth's radius in kilometers
   const dLat = degreesToRadians(lat2 - lat1);
   const dLng = degreesToRadians(lng2 - lng1);
-  
+
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(degreesToRadians(lat1)) *
       Math.cos(degreesToRadians(lat2)) *
       Math.sin(dLng / 2) *
       Math.sin(dLng / 2);
-  
+
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c;
-  
+
   return distance;
 }
 
@@ -75,17 +75,17 @@ export function calculateBearing(
   lat1: number,
   lng1: number,
   lat2: number,
-  lng2: number
+  lng2: number,
 ): number {
   const dLng = degreesToRadians(lng2 - lng1);
   const lat1Rad = degreesToRadians(lat1);
   const lat2Rad = degreesToRadians(lat2);
-  
+
   const y = Math.sin(dLng) * Math.cos(lat2Rad);
   const x =
     Math.cos(lat1Rad) * Math.sin(lat2Rad) -
     Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLng);
-  
+
   const bearing = radiansToDegrees(Math.atan2(y, x));
   return (bearing + 360) % 360; // Normalize to 0-360 degrees
 }
@@ -105,10 +105,10 @@ export function formatDistance(distance: number): string {
  */
 export function debounce<T extends (...args: unknown[]) => void>(
   func: T,
-  wait: number
+  wait: number,
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout;
-  
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
@@ -126,14 +126,18 @@ export function generateId(): string {
  * Check if browser supports geolocation
  */
 export function supportsGeolocation(): boolean {
-  return 'geolocation' in navigator;
+  return "geolocation" in navigator;
 }
 
 /**
  * Check if browser supports push notifications
  */
 export function supportsPushNotifications(): boolean {
-  return 'Notification' in window && 'serviceWorker' in navigator && 'PushManager' in window;
+  return (
+    "Notification" in window &&
+    "serviceWorker" in navigator &&
+    "PushManager" in window
+  );
 }
 
 /**
@@ -145,7 +149,7 @@ export async function requestNotificationPermission(): Promise<boolean> {
   }
 
   const permission = await Notification.requestPermission();
-  return permission === 'granted';
+  return permission === "granted";
 }
 
 /**
@@ -157,17 +161,22 @@ export function getTimeRemaining(targetTime: Date): {
   seconds: number;
   total: number;
 } {
-  const now = new Date();
-  const total = targetTime.getTime() - now.getTime();
-  
-  if (total < 0) {
+  if (!targetTime || isNaN(targetTime.getTime())) {
+    console.error('Invalid targetTime for getTimeRemaining:', targetTime);
     return { hours: 0, minutes: 0, seconds: 0, total: 0 };
   }
   
+  const now = new Date();
+  const total = targetTime.getTime() - now.getTime();
+
+  if (total < 0) {
+    return { hours: 0, minutes: 0, seconds: 0, total: 0 };
+  }
+
   const hours = Math.floor(total / (1000 * 60 * 60));
   const minutes = Math.floor((total % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((total % (1000 * 60)) / 1000);
-  
+
   return { hours, minutes, seconds, total };
 }
 
@@ -180,7 +189,7 @@ export function formatTimeRemaining(timeRemaining: {
   seconds: number;
 }): string {
   const { hours, minutes, seconds } = timeRemaining;
-  
+
   if (hours > 0) {
     return `${hours}j ${minutes}m`;
   } else if (minutes > 0) {
@@ -200,27 +209,27 @@ export function getIslamicGreeting(hour: number): {
 } {
   if (hour >= 5 && hour < 11) {
     return {
-      arabic: 'صباح الخير',
-      indonesian: 'Selamat Pagi',
-      english: 'Good Morning',
+      arabic: "صباح الخير",
+      indonesian: "Selamat Pagi",
+      english: "Good Morning",
     };
   } else if (hour >= 11 && hour < 15) {
     return {
-      arabic: 'السلام عليكم',
-      indonesian: 'Selamat Siang',
-      english: 'Good Afternoon',
+      arabic: "السلام عليكم",
+      indonesian: "Selamat Siang",
+      english: "Good Afternoon",
     };
   } else if (hour >= 15 && hour < 18) {
     return {
-      arabic: 'مساء الخير',
-      indonesian: 'Selamat Sore',
-      english: 'Good Evening',
+      arabic: "مساء الخير",
+      indonesian: "Selamat Sore",
+      english: "Good Evening",
     };
   } else {
     return {
-      arabic: 'مساء الخير',
-      indonesian: 'Selamat Malam',
-      english: 'Good Night',
+      arabic: "مساء الخير",
+      indonesian: "Selamat Malam",
+      english: "Good Night",
     };
   }
 }

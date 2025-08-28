@@ -68,7 +68,7 @@
       "province": "Banten",
       "coordinates": {
         "latitude": -6.1701,
-        "longitude": 106.6400
+        "longitude": 106.64
       },
       "timezone": "WIB",
       "population": 1798601
@@ -134,7 +134,7 @@
       "province": "Riau",
       "coordinates": {
         "latitude": 0.5333,
-        "longitude": 101.4500
+        "longitude": 101.45
       },
       "timezone": "WIB",
       "population": 1093416
@@ -145,7 +145,7 @@
       "province": "Lampung",
       "coordinates": {
         "latitude": -5.4292,
-        "longitude": 105.2610
+        "longitude": 105.261
       },
       "timezone": "WIB",
       "population": 879651
@@ -155,7 +155,7 @@
       "name": "Denpasar",
       "province": "Bali",
       "coordinates": {
-        "latitude": -8.6500,
+        "latitude": -8.65,
         "longitude": 115.2167
       },
       "timezone": "WITA",
@@ -243,7 +243,7 @@
       "name": "Samarinda",
       "province": "Kalimantan Timur",
       "coordinates": {
-        "latitude": -0.4920,
+        "latitude": -0.492,
         "longitude": 117.1436
       },
       "timezone": "WITA",

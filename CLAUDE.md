@@ -9,35 +9,41 @@ Adzan ForPublic.id is a comprehensive Islamic prayer times application serving t
 ## Tech Stack & Architecture
 
 **Framework & Runtime:**
+
 - Next.js 15 with App Router
-- React 19  
+- React 19
 - TypeScript
 - Bun (primary runtime, package manager, and development server)
 
 **Styling & UI:**
+
 - Tailwind CSS v4 with design tokens
 - shadcn/ui component library
 - Geist font family
 - Responsive mobile-first design
 
 **Islamic Calculation Engine:**
+
 - **adhan.js library** - Astronomical prayer time calculations
 - Kemenag Indonesia calculation parameters
 - Multiple calculation methods support (MWL, ISNA, Umm al-Qura)
 - GPS-based location detection
 
 **Internationalization:**
+
 - next-intl for bilingual support (Indonesian/English)
 - Islamic terminology in both languages
 - Locale-based routing (/id/, /en/)
 
 **Mapping & Location:**
+
 - Leaflet.js for interactive maps
 - react-leaflet for React integration
 - GPS geolocation for accurate positioning
 - Mosque locations with GeoJSON data
 
 **Data Architecture:**
+
 - JSON-based data storage (NO DATABASE)
 - Static files in /public/data/adzan/
 - Client-side data loading and processing
@@ -138,6 +144,7 @@ adzan/
 ## Core Islamic Features
 
 ### 🕌 Prayer Times Engine
+
 - Accurate prayer times using astronomical calculations
 - Kemenag Indonesia calculation parameters (official standard)
 - Support for all Indonesian regions (WIB, WITA, WIT timezones)
@@ -145,7 +152,8 @@ adzan/
 - Multiple calculation method preferences
 - Automatic Daylight Saving Time handling
 
-### ⏰ Smart Notifications  
+### ⏰ Smart Notifications
+
 - PWA push notifications for 5 daily prayers
 - Customizable notification timing (5-30 minutes before)
 - Multiple adzan audio options (Mecca, Medina, local)
@@ -153,6 +161,7 @@ adzan/
 - Background notification scheduling
 
 ### 📍 Mosque Finder
+
 - Interactive map showing nearby mosques
 - Detailed mosque information (address, facilities, contact)
 - Distance calculation and GPS directions
@@ -160,6 +169,7 @@ adzan/
 - Accessibility information (wheelchair access, etc.)
 
 ### 🧭 Qibla Compass
+
 - Accurate Qibla direction using GPS coordinates
 - Visual compass pointing to Kaaba in Mecca
 - Calibration instructions for device accuracy
@@ -167,6 +177,7 @@ adzan/
 - Magnetic declination correction
 
 ### 📅 Islamic Calendar
+
 - Complete Hijri calendar with date conversion
 - Important Islamic dates and events
 - Ramadan schedule with Iftar/Suhur times
@@ -174,6 +185,7 @@ adzan/
 - Prayer time adjustments during Ramadan
 
 ### 📖 Daily Islamic Content
+
 - Daily du'a (supplications) and dhikr (remembrance)
 - Asma'ul Husna (99 Beautiful Names of Allah)
 - Selected Quran verses for daily reflection
@@ -186,21 +198,21 @@ adzan/
 
 ```typescript
 // lib/prayer/adhan-wrapper.ts
-import { PrayerTimes, CalculationMethod, Coordinates } from 'adhan'
+import { PrayerTimes, CalculationMethod, Coordinates } from "adhan";
 
 // Kemenag Indonesia parameters
 export const KemenagCalculationParams = (() => {
-  const params = CalculationMethod.Other()
-  params.fajrAngle = 20.0      // Kemenag standard
-  params.maghribAngle = 0.0    // Sunset
-  params.ishaAngle = 18.0      // Kemenag standard
-  params.madhab = Madhab.Shafi // Indonesia follows Shafi madhab
-  return params
-})()
+  const params = CalculationMethod.Other();
+  params.fajrAngle = 20.0; // Kemenag standard
+  params.maghribAngle = 0.0; // Sunset
+  params.ishaAngle = 18.0; // Kemenag standard
+  params.madhab = Madhab.Shafi; // Indonesia follows Shafi madhab
+  return params;
+})();
 
 export function calculatePrayerTimes(lat: number, lng: number, date: Date) {
-  const coordinates = new Coordinates(lat, lng)
-  return new PrayerTimes(coordinates, date, KemenagCalculationParams)
+  const coordinates = new Coordinates(lat, lng);
+  return new PrayerTimes(coordinates, date, KemenagCalculationParams);
 }
 ```
 
@@ -210,40 +222,40 @@ export function calculatePrayerTimes(lat: number, lng: number, date: Date) {
 // Prayer times response
 interface PrayerTimesData {
   location: {
-    city: string
-    coordinates: { lat: number; lng: number }
-    timezone: 'WIB' | 'WITA' | 'WIT'
-  }
+    city: string;
+    coordinates: { lat: number; lng: number };
+    timezone: "WIB" | "WITA" | "WIT";
+  };
   date: {
-    gregorian: string
-    hijri: string
-  }
+    gregorian: string;
+    hijri: string;
+  };
   times: {
-    fajr: string      // "04:45"
-    sunrise: string   // "05:58" 
-    dhuhr: string     // "12:15"
-    asr: string       // "15:30"
-    maghrib: string   // "18:32"
-    isha: string      // "19:45"
-  }
+    fajr: string; // "04:45"
+    sunrise: string; // "05:58"
+    dhuhr: string; // "12:15"
+    asr: string; // "15:30"
+    maghrib: string; // "18:32"
+    isha: string; // "19:45"
+  };
   qibla: {
-    direction: number // degrees from North
-  }
-  calculationMethod: string
+    direction: number; // degrees from North
+  };
+  calculationMethod: string;
 }
 
 // Mosque data structure
 interface Mosque {
-  id: string
-  name: { id: string; en: string }
-  address: string
-  coordinates: { lat: number; lng: number }
-  facilities: string[]
-  contact?: { phone?: string; website?: string }
-  accessibility: boolean
-  rating: number
-  reviews: number
-  distance?: number // calculated from user location
+  id: string;
+  name: { id: string; en: string };
+  address: string;
+  coordinates: { lat: number; lng: number };
+  facilities: string[];
+  contact?: { phone?: string; website?: string };
+  accessibility: boolean;
+  rating: number;
+  reviews: number;
+  distance?: number; // calculated from user location
 }
 ```
 
@@ -254,27 +266,27 @@ interface Mosque {
 ```typescript
 // Real-time prayer times with countdown
 const PrayerTimesDisplay: React.FC = () => {
-  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesData | null>(null)
-  const [location, setLocation] = useState<Coordinates | null>(null)
-  
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesData | null>(null);
+  const [location, setLocation] = useState<Coordinates | null>(null);
+
   // Get user location and calculate prayer times
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const coords = new Coordinates(
-        position.coords.latitude, 
-        position.coords.longitude
-      )
-      setLocation(coords)
-      
+        position.coords.latitude,
+        position.coords.longitude,
+      );
+      setLocation(coords);
+
       const times = calculatePrayerTimes(
-        coords.latitude, 
-        coords.longitude, 
-        new Date()
-      )
-      setPrayerTimes(formatPrayerTimes(times))
-    })
-  }, [])
-}
+        coords.latitude,
+        coords.longitude,
+        new Date(),
+      );
+      setPrayerTimes(formatPrayerTimes(times));
+    });
+  }, []);
+};
 ```
 
 ### Qibla Compass Component
@@ -282,30 +294,32 @@ const PrayerTimesDisplay: React.FC = () => {
 ```typescript
 // GPS-based Qibla direction
 const QiblaCompass: React.FC = () => {
-  const [qiblaDirection, setQiblaDirection] = useState<number>(0)
-  const [deviceHeading, setDeviceHeading] = useState<number>(0)
-  
+  const [qiblaDirection, setQiblaDirection] = useState<number>(0);
+  const [deviceHeading, setDeviceHeading] = useState<number>(0);
+
   // Calculate Qibla direction from user location to Kaaba
   const calculateQiblaDirection = (userLat: number, userLng: number) => {
-    const KAABA_LAT = 21.4225
-    const KAABA_LNG = 39.8262
-    
+    const KAABA_LAT = 21.4225;
+    const KAABA_LNG = 39.8262;
+
     // Qibla calculation using spherical trigonometry
-    const direction = calculateBearing(userLat, userLng, KAABA_LAT, KAABA_LNG)
-    return direction
-  }
-}
+    const direction = calculateBearing(userLat, userLng, KAABA_LAT, KAABA_LNG);
+    return direction;
+  };
+};
 ```
 
 ## Performance Optimization
 
 ### Prayer Time Caching
+
 - Cache prayer times for current day and week
-- Background updates for next day's schedule  
+- Background updates for next day's schedule
 - Efficient storage using localStorage/IndexedDB
 - Offline fallback with pre-calculated times
 
 ### Notification Optimization
+
 - Service Worker for background notifications
 - Efficient scheduling with precise timing
 - Battery usage optimization
@@ -314,12 +328,14 @@ const QiblaCompass: React.FC = () => {
 ## SEO & Accessibility
 
 ### Islamic SEO Implementation
+
 - Dynamic metadata with Islamic terms in Indonesian/English
 - Structured data for prayer times and mosque information
-- Local SEO for mosque finder functionality  
+- Local SEO for mosque finder functionality
 - Religious content optimization for Islamic search terms
 
 ### Accessibility for Islamic Community
+
 - Right-to-left text support for Arabic content
 - High contrast mode for better visibility
 - Voice announcements for prayer times
@@ -328,6 +344,7 @@ const QiblaCompass: React.FC = () => {
 ## Deployment & PWA
 
 ### Progressive Web App Features
+
 - Offline prayer time calculations
 - Push notification support
 - App-like experience on mobile devices
@@ -335,6 +352,7 @@ const QiblaCompass: React.FC = () => {
 - Background sync for updated prayer times
 
 ### Vercel Deployment Configuration
+
 ```json
 // vercel.json
 {
@@ -351,12 +369,14 @@ const QiblaCompass: React.FC = () => {
 ## Data Sources & Islamic Compliance
 
 ### Official Islamic Authorities
+
 - Kementerian Agama Republik Indonesia (Kemenag)
 - Majelis Ulama Indonesia (MUI) guidelines
 - Local Islamic organizations for mosque data
 - Verified Islamic content from reliable sources
 
 ### Calculation Method Accuracy
+
 - Kemenag parameters as primary standard
 - Validation against official prayer time schedules
 - Regional adjustments for Indonesian geography
@@ -365,12 +385,14 @@ const QiblaCompass: React.FC = () => {
 ## Religious Considerations
 
 ### Islamic Guidelines Compliance
+
 - Accurate Qibla direction calculations
 - Proper Islamic terminology usage
 - Respectful presentation of religious content
 - Cultural sensitivity in UI/UX design
 
 ### Community Features
+
 - User feedback for prayer time accuracy
 - Community-contributed mosque information
 - Islamic event notifications

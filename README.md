@@ -12,6 +12,7 @@ Adzan ForPublic.id adalah aplikasi komprehensif untuk jadwal shalat, pencari mas
 ## ✨ Fitur Utama
 
 ### 🕌 **Prayer Times Engine**
+
 - ✅ Perhitungan waktu shalat akurat menggunakan parameter Kemenag Indonesia
 - ✅ GPS location detection untuk otomatisasi
 - ✅ Support seluruh zona waktu Indonesia (WIB, WITA, WIT)
@@ -19,24 +20,28 @@ Adzan ForPublic.id adalah aplikasi komprehensif untuk jadwal shalat, pencari mas
 - ✅ Validasi terhadap jadwal resmi Kementerian Agama RI
 
 ### 📍 **Mosque Finder** (Coming Soon)
+
 - Interactive map untuk pencarian masjid terdekat
 - Detail informasi masjid (fasilitas, kontak, aksesibilitas)
 - Directions dan estimasi jarak
 - User reviews dan rating system
 
-### 🧭 **Qibla Compass** (Coming Soon)  
+### 🧭 **Qibla Compass** (Coming Soon)
+
 - Arah kiblat akurat berbasis GPS
 - Visual compass pointing ke Kaaba
 - Kalibrasi untuk device compass
 - Offline functionality
 
 ### 📅 **Islamic Calendar** (Coming Soon)
+
 - Kalender Hijriah dengan konversi tanggal
 - Important Islamic dates dan events
 - Jadwal Ramadan dengan Iftar/Suhur times
 - Integration dengan Indonesian Islamic holidays
 
 ### 📖 **Daily Islamic Content** (Coming Soon)
+
 - Daily du'a dan dhikr reminders
 - Asma'ul Husna dengan pronunciation guide
 - Selected Quran verses untuk daily reading
@@ -86,29 +91,34 @@ bun run clean        # Clean build cache
 ## 🏗️ Tech Stack
 
 ### Core Framework
+
 - **Next.js 15** dengan App Router
 - **React 19** untuk UI components
 - **TypeScript** untuk type safety
 - **Bun** sebagai runtime dan package manager
 
 ### Styling & UI
+
 - **Tailwind CSS v4** dengan design tokens
 - **shadcn/ui** component library
 - **Geist font family** untuk typography
 - **Lucide React** untuk icon system
 
 ### Islamic Calculation Engine
+
 - **adhan.js library** - Astronomical calculations
 - **Kemenag Indonesia parameters** - Official standards
 - **GPS geolocation** - Automatic location detection
 - **Timezone management** - WIB/WITA/WIT support
 
 ### Mapping & Location
+
 - **Leaflet.js** - Interactive maps (planned)
 - **react-leaflet** - React integration (planned)
 - **GeoJSON data** - Mosque locations (planned)
 
 ### Data Architecture
+
 - **JSON-based storage** - No database required
 - **Static file serving** - Optimized for CDN
 - **Client-side processing** - Fast user experience
@@ -146,19 +156,22 @@ adzan/
 ## 🎨 Design System
 
 ### Islamic Green Theme
+
 ```css
 /* Primary Islamic colors */
---islamic-green: 142 71% 45%;    /* #16a34a */
---islamic-dark: 142 100% 15%;    /* Dark green */
---kaaba-gold: 45 100% 50%;       /* Gold accents */
+--islamic-green: 142 71% 45%; /* #16a34a */
+--islamic-dark: 142 100% 15%; /* Dark green */
+--kaaba-gold: 45 100% 50%; /* Gold accents */
 ```
 
 ### Typography
+
 - **Arabic text support** dengan proper RTL direction
 - **Hijri date formatting** dengan tabular numbers
 - **Geist Sans/Mono** untuk content bahasa Indonesia/English
 
 ### Components
+
 - **Prayer time cards** dengan countdown indicators
 - **Islamic calendar** dengan Hijri date conversion
 - **Qibla compass** dengan animated direction pointer
@@ -167,6 +180,7 @@ adzan/
 ## 🔧 Configuration
 
 ### Environment Variables (Optional)
+
 ```bash
 # Google Analytics (production)
 NEXT_PUBLIC_GA_ID=your-ga-id
@@ -176,19 +190,21 @@ NEXT_PUBLIC_API_URL=your-api-url
 ```
 
 ### Calculation Methods
+
 ```typescript
 // Default: Kemenag Indonesia
 const params = {
-  fajrAngle: 20.0,      // Kemenag standard
-  maghribAngle: 0.0,    // Sunset
-  ishaAngle: 18.0,      // Kemenag standard
-  madhab: 'Shafi'       // Indonesia follows Shafi madhab
-}
+  fajrAngle: 20.0, // Kemenag standard
+  maghribAngle: 0.0, // Sunset
+  ishaAngle: 18.0, // Kemenag standard
+  madhab: "Shafi", // Indonesia follows Shafi madhab
+};
 ```
 
 ## 🌐 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 # Deploy to production
 vercel --prod
@@ -197,6 +213,7 @@ vercel --prod
 ```
 
 ### Manual Build
+
 ```bash
 # Build for production
 bun run build
@@ -208,6 +225,7 @@ bun run start
 ## 📊 Performance
 
 ### Optimization Features
+
 - **Turbopack** untuk fast development builds
 - **Bundle optimization** dengan tree-shaking
 - **Image optimization** untuk assets
@@ -215,6 +233,7 @@ bun run start
 - **Progressive loading** untuk large datasets
 
 ### Lighthouse Scores (Target)
+
 - **Performance:** >90
 - **Accessibility:** >95
 - **Best Practices:** >95
@@ -223,6 +242,7 @@ bun run start
 ## 🤝 Contributing
 
 ### Development Workflow
+
 1. Fork repository
 2. Create feature branch: `git checkout -b feature/amazing-feature`
 3. Commit changes: `git commit -m 'Add amazing feature'`
@@ -230,6 +250,7 @@ bun run start
 5. Open Pull Request
 
 ### Code Standards
+
 - **TypeScript strict mode** enabled
 - **ESLint + Prettier** untuk code consistency
 - **Component testing** dengan proper TypeScript types
@@ -238,6 +259,7 @@ bun run start
 ## 📋 Development Status
 
 ### ✅ **Completed Features**
+
 - ✅ Next.js 15 project setup dengan Tailwind CSS v4
 - ✅ Prayer time calculation engine (adhan.js + Kemenag parameters)
 - ✅ Core UI components (PrayerTimesDisplay, PrayerCountdown)
@@ -247,11 +269,13 @@ bun run start
 - ✅ Responsive layout dengan mobile-first approach
 
 ### 🚧 **In Progress**
+
 - 🚧 Mosque finder dengan interactive maps (Leaflet.js)
 - 🚧 Qibla compass component
 - 🚧 PWA capabilities dengan notification system
 
 ### 📋 **Planned Features**
+
 - 📋 Bilingual support (Indonesian/English) dengan next-intl
 - 📋 Islamic calendar dengan Hijri date conversion
 - 📋 Daily Islamic content (du'a, dhikr, Quran verses)

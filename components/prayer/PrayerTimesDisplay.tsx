@@ -1,32 +1,39 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { MapPin, Clock, Compass } from 'lucide-react';
-import { PrayerTimesData, NextPrayerInfo } from '@/lib/types/prayer';
-import { calculatePrayerTimes, getNextPrayerTime, getCurrentLocation } from '@/lib/prayer/adhan-wrapper';
-import { formatIndonesianDate, getIslamicGreeting } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { PrayerCountdown } from './PrayerCountdown';
+import { useState, useEffect } from "react";
+import { MapPin, Clock, Compass } from "lucide-react";
+import { PrayerTimesData, NextPrayerInfo } from "@/lib/types/prayer";
+import {
+  calculatePrayerTimes,
+  getNextPrayerTime,
+  getCurrentLocation,
+} from "@/lib/prayer/adhan-wrapper";
+import { formatIndonesianDate, getIslamicGreeting } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { PrayerCountdown } from "./PrayerCountdown";
 
 interface PrayerTimesDisplayProps {
   className?: string;
   showNextPrayer?: boolean;
 }
 
-export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerTimesDisplayProps) {
+export function PrayerTimesDisplay({
+  className,
+  showNextPrayer = true,
+}: PrayerTimesDisplayProps) {
   const [prayerTimes, setPrayerTimes] = useState<PrayerTimesData | null>(null);
   const [nextPrayer, setNextPrayer] = useState<NextPrayerInfo | null>(null);
-  const [location, setLocation] = useState<string>('');
+  const [location, setLocation] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const prayerDisplayOrder = [
-    { key: 'fajr' as const, name: 'Subuh', arabic: 'فجر' },
-    { key: 'dhuhr' as const, name: 'Dzuhur', arabic: 'ظهر' },
-    { key: 'asr' as const, name: 'Ashar', arabic: 'عصر' },
-    { key: 'maghrib' as const, name: 'Maghrib', arabic: 'مغرب' },
-    { key: 'isha' as const, name: 'Isya', arabic: 'عشاء' },
+    { key: "fajr" as const, name: "Subuh", arabic: "فجر" },
+    { key: "dhuhr" as const, name: "Dzuhur", arabic: "ظهر" },
+    { key: "asr" as const, name: "Ashar", arabic: "عصر" },
+    { key: "maghrib" as const, name: "Maghrib", arabic: "مغرب" },
+    { key: "isha" as const, name: "Isya", arabic: "عشاء" },
   ];
 
   useEffect(() => {
@@ -38,25 +45,32 @@ export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerT
         // Get user location
         const locationInfo = await getCurrentLocation();
         const { latitude, longitude } = locationInfo.coordinates;
-        
+
         // Calculate prayer times
         const times = calculatePrayerTimes(latitude, longitude);
         setPrayerTimes(times);
-        
+
         // Get next prayer
         const next = getNextPrayerTime(times);
         setNextPrayer(next);
-        
+
         // Set location (in production, use reverse geocoding)
-        setLocation(locationInfo.city || `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`);
+        setLocation(
+          locationInfo.city ||
+            `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`,
+        );
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Gagal mendapatkan jadwal shalat');
-        
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Gagal mendapatkan jadwal shalat",
+        );
+
         // Fallback: Use Jakarta coordinates
         const jakartaTimes = calculatePrayerTimes(-6.2088, 106.8456);
         setPrayerTimes(jakartaTimes);
-        setLocation('Jakarta (Default)');
-        
+        setLocation("Jakarta (Default)");
+
         const next = getNextPrayerTime(jakartaTimes);
         setNextPrayer(next);
       } finally {
@@ -114,7 +128,9 @@ export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerT
       <Card className="mb-4">
         <CardContent className="p-6">
           <div className="text-center">
-            <h2 className="text-2xl font-semibold mb-2">{greeting.indonesian}</h2>
+            <h2 className="text-2xl font-semibold mb-2">
+              {greeting.indonesian}
+            </h2>
             <p className="text-lg mb-1">{formatIndonesianDate(new Date())}</p>
             <p className="text-sm text-muted-foreground">
               {prayerTimes.date.hijri}
@@ -145,21 +161,25 @@ export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerT
             {prayerDisplayOrder.map((prayer, index) => {
               const time = prayerTimes.times[prayer.key];
               const isNext = nextPrayer?.prayer.name === prayer.key;
-              
+
               return (
                 <div
                   key={prayer.key}
                   className={`p-4 flex items-center justify-between transition-colors ${
-                    isNext ? 'bg-islamic-50 border-l-4 border-l-islamic-500' : 'hover:bg-muted/50'
+                    isNext
+                      ? "bg-islamic-50 border-l-4 border-l-islamic-500"
+                      : "hover:bg-muted/50"
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <div className="flex-shrink-0">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${
-                        isNext 
-                          ? 'bg-islamic-500 text-white' 
-                          : 'bg-muted text-muted-foreground'
-                      }`}>
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${
+                          isNext
+                            ? "bg-islamic-500 text-white"
+                            : "bg-muted text-muted-foreground"
+                        }`}
+                      >
                         {index + 1}
                       </div>
                     </div>
@@ -170,7 +190,7 @@ export function PrayerTimesDisplay({ className, showNextPrayer = true }: PrayerT
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="text-right">
                     <p className="text-lg font-semibold">{time}</p>
                     {isNext && (

@@ -9,19 +9,19 @@ export interface PrayerTimesData {
   location: {
     city: string;
     coordinates: Coordinates;
-    timezone: 'WIB' | 'WITA' | 'WIT';
+    timezone: "WIB" | "WITA" | "WIT";
   };
   date: {
     gregorian: string;
     hijri: string;
   };
   times: {
-    fajr: string;      // "04:45"
-    sunrise: string;   // "05:58" 
-    dhuhr: string;     // "12:15"
-    asr: string;       // "15:30"
-    maghrib: string;   // "18:32"
-    isha: string;      // "19:45"
+    fajr: string; // "04:45"
+    sunrise: string; // "05:58"
+    dhuhr: string; // "12:15"
+    asr: string; // "15:30"
+    maghrib: string; // "18:32"
+    isha: string; // "19:45"
   };
   qibla: {
     direction: number; // degrees from North
@@ -31,7 +31,7 @@ export interface PrayerTimesData {
 }
 
 export interface PrayerTime {
-  name: 'fajr' | 'sunrise' | 'dhuhr' | 'asr' | 'maghrib' | 'isha';
+  name: "fajr" | "sunrise" | "dhuhr" | "asr" | "maghrib" | "isha";
   time: Date;
   arabicName: string;
   indonesianName: string;
@@ -47,15 +47,15 @@ export interface NextPrayerInfo {
   };
 }
 
-export type CalculationMethodType = 
-  | 'Kemenag' 
-  | 'MWL' 
-  | 'ISNA' 
-  | 'MakkahUmmalQura' 
-  | 'Egyptian' 
-  | 'Karachi' 
-  | 'Tehran' 
-  | 'Jafari';
+export type CalculationMethodType =
+  | "Kemenag"
+  | "MWL"
+  | "ISNA"
+  | "MakkahUmmalQura"
+  | "Egyptian"
+  | "Karachi"
+  | "Tehran"
+  | "Jafari";
 
 export interface CalculationMethodParams {
   name: string;
@@ -63,7 +63,7 @@ export interface CalculationMethodParams {
   fajrAngle: number;
   maghribAngle: number;
   ishaAngle: number;
-  madhab: 'Shafi' | 'Hanafi';
+  madhab: "Shafi" | "Hanafi";
 }
 
 export interface PrayerNotificationSettings {
@@ -77,7 +77,7 @@ export interface PrayerNotificationSettings {
   };
   timeBefore: number; // minutes before prayer time
   soundEnabled: boolean;
-  adhanAudio: 'mecca' | 'medina' | 'local' | 'none';
+  adhanAudio: "mecca" | "medina" | "local" | "none";
   vibrationEnabled: boolean;
 }
 
@@ -88,5 +88,5 @@ export interface LocationInfo {
   coordinates: Coordinates;
   timezone: string;
   accuracy: number; // GPS accuracy in meters
-  source: 'gps' | 'manual' | 'ip' | 'cached';
+  source: "gps" | "manual" | "ip" | "cached";
 }
