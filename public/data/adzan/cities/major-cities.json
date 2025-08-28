@@ -1,0 +1,341 @@
+{
+  "metadata": {
+    "source": "Indonesian Geographic Data",
+    "description": "Major Indonesian cities with coordinates for prayer time calculations",
+    "lastUpdated": "2025-01-15",
+    "count": 34
+  },
+  "cities": [
+    {
+      "id": "jakarta",
+      "name": "Jakarta",
+      "province": "DKI Jakarta",
+      "coordinates": {
+        "latitude": -6.2088,
+        "longitude": 106.8456
+      },
+      "timezone": "WIB",
+      "population": 10154134,
+      "isCapital": true
+    },
+    {
+      "id": "surabaya",
+      "name": "Surabaya",
+      "province": "Jawa Timur",
+      "coordinates": {
+        "latitude": -7.2575,
+        "longitude": 112.7521
+      },
+      "timezone": "WIB",
+      "population": 2874699
+    },
+    {
+      "id": "bandung",
+      "name": "Bandung",
+      "province": "Jawa Barat",
+      "coordinates": {
+        "latitude": -6.9175,
+        "longitude": 107.6191
+      },
+      "timezone": "WIB",
+      "population": 2444160
+    },
+    {
+      "id": "medan",
+      "name": "Medan",
+      "province": "Sumatera Utara",
+      "coordinates": {
+        "latitude": 3.5952,
+        "longitude": 98.6722
+      },
+      "timezone": "WIB",
+      "population": 2210624
+    },
+    {
+      "id": "bekasi",
+      "name": "Bekasi",
+      "province": "Jawa Barat",
+      "coordinates": {
+        "latitude": -6.2383,
+        "longitude": 106.9756
+      },
+      "timezone": "WIB",
+      "population": 2543676
+    },
+    {
+      "id": "tangerang",
+      "name": "Tangerang",
+      "province": "Banten",
+      "coordinates": {
+        "latitude": -6.1701,
+        "longitude": 106.6400
+      },
+      "timezone": "WIB",
+      "population": 1798601
+    },
+    {
+      "id": "depok",
+      "name": "Depok",
+      "province": "Jawa Barat",
+      "coordinates": {
+        "latitude": -6.4025,
+        "longitude": 106.7942
+      },
+      "timezone": "WIB",
+      "population": 1738570
+    },
+    {
+      "id": "semarang",
+      "name": "Semarang",
+      "province": "Jawa Tengah",
+      "coordinates": {
+        "latitude": -6.9667,
+        "longitude": 110.4167
+      },
+      "timezone": "WIB",
+      "population": 1555984
+    },
+    {
+      "id": "palembang",
+      "name": "Palembang",
+      "province": "Sumatera Selatan",
+      "coordinates": {
+        "latitude": -2.9167,
+        "longitude": 104.7458
+      },
+      "timezone": "WIB",
+      "population": 1455284
+    },
+    {
+      "id": "makassar",
+      "name": "Makassar",
+      "province": "Sulawesi Selatan",
+      "coordinates": {
+        "latitude": -5.1477,
+        "longitude": 119.4327
+      },
+      "timezone": "WITA",
+      "population": 1338663
+    },
+    {
+      "id": "batam",
+      "name": "Batam",
+      "province": "Kepulauan Riau",
+      "coordinates": {
+        "latitude": 1.0456,
+        "longitude": 104.0305
+      },
+      "timezone": "WIB",
+      "population": 1196396
+    },
+    {
+      "id": "pekanbaru",
+      "name": "Pekanbaru",
+      "province": "Riau",
+      "coordinates": {
+        "latitude": 0.5333,
+        "longitude": 101.4500
+      },
+      "timezone": "WIB",
+      "population": 1093416
+    },
+    {
+      "id": "bandar_lampung",
+      "name": "Bandar Lampung",
+      "province": "Lampung",
+      "coordinates": {
+        "latitude": -5.4292,
+        "longitude": 105.2610
+      },
+      "timezone": "WIB",
+      "population": 879651
+    },
+    {
+      "id": "denpasar",
+      "name": "Denpasar",
+      "province": "Bali",
+      "coordinates": {
+        "latitude": -8.6500,
+        "longitude": 115.2167
+      },
+      "timezone": "WITA",
+      "population": 725314
+    },
+    {
+      "id": "padang",
+      "name": "Padang",
+      "province": "Sumatera Barat",
+      "coordinates": {
+        "latitude": -0.9492,
+        "longitude": 100.3543
+      },
+      "timezone": "WIB",
+      "population": 833562
+    },
+    {
+      "id": "malang",
+      "name": "Malang",
+      "province": "Jawa Timur",
+      "coordinates": {
+        "latitude": -7.9797,
+        "longitude": 112.6304
+      },
+      "timezone": "WIB",
+      "population": 820043
+    },
+    {
+      "id": "yogyakarta",
+      "name": "Yogyakarta",
+      "province": "DI Yogyakarta",
+      "coordinates": {
+        "latitude": -7.7956,
+        "longitude": 110.3695
+      },
+      "timezone": "WIB",
+      "population": 373589
+    },
+    {
+      "id": "solo",
+      "name": "Surakarta",
+      "province": "Jawa Tengah",
+      "coordinates": {
+        "latitude": -7.5561,
+        "longitude": 110.8316
+      },
+      "timezone": "WIB",
+      "population": 522364
+    },
+    {
+      "id": "balikpapan",
+      "name": "Balikpapan",
+      "province": "Kalimantan Timur",
+      "coordinates": {
+        "latitude": -1.2379,
+        "longitude": 116.8529
+      },
+      "timezone": "WITA",
+      "population": 688318
+    },
+    {
+      "id": "banjarmasin",
+      "name": "Banjarmasin",
+      "province": "Kalimantan Selatan",
+      "coordinates": {
+        "latitude": -3.3194,
+        "longitude": 114.5906
+      },
+      "timezone": "WITA",
+      "population": 657663
+    },
+    {
+      "id": "pontianak",
+      "name": "Pontianak",
+      "province": "Kalimantan Barat",
+      "coordinates": {
+        "latitude": -0.0263,
+        "longitude": 109.3425
+      },
+      "timezone": "WIB",
+      "population": 658685
+    },
+    {
+      "id": "samarinda",
+      "name": "Samarinda",
+      "province": "Kalimantan Timur",
+      "coordinates": {
+        "latitude": -0.4920,
+        "longitude": 117.1436
+      },
+      "timezone": "WITA",
+      "population": 824718
+    },
+    {
+      "id": "jambi",
+      "name": "Jambi",
+      "province": "Jambi",
+      "coordinates": {
+        "latitude": -1.6101,
+        "longitude": 103.6131
+      },
+      "timezone": "WIB",
+      "population": 606200
+    },
+    {
+      "id": "manado",
+      "name": "Manado",
+      "province": "Sulawesi Utara",
+      "coordinates": {
+        "latitude": 1.4748,
+        "longitude": 124.8421
+      },
+      "timezone": "WITA",
+      "population": 451916
+    },
+    {
+      "id": "mataram",
+      "name": "Mataram",
+      "province": "Nusa Tenggara Barat",
+      "coordinates": {
+        "latitude": -8.5833,
+        "longitude": 116.1167
+      },
+      "timezone": "WITA",
+      "population": 429651
+    },
+    {
+      "id": "kupang",
+      "name": "Kupang",
+      "province": "Nusa Tenggara Timur",
+      "coordinates": {
+        "latitude": -10.1667,
+        "longitude": 123.5833
+      },
+      "timezone": "WITA",
+      "population": 442758
+    },
+    {
+      "id": "ambon",
+      "name": "Ambon",
+      "province": "Maluku",
+      "coordinates": {
+        "latitude": -3.6954,
+        "longitude": 128.1814
+      },
+      "timezone": "WIT",
+      "population": 355596
+    },
+    {
+      "id": "jayapura",
+      "name": "Jayapura",
+      "province": "Papua",
+      "coordinates": {
+        "latitude": -2.5167,
+        "longitude": 140.7167
+      },
+      "timezone": "WIT",
+      "population": 315872
+    },
+    {
+      "id": "banda_aceh",
+      "name": "Banda Aceh",
+      "province": "Aceh",
+      "coordinates": {
+        "latitude": 5.5577,
+        "longitude": 95.3222
+      },
+      "timezone": "WIB",
+      "population": 219070
+    },
+    {
+      "id": "bengkulu",
+      "name": "Bengkulu",
+      "province": "Bengkulu",
+      "coordinates": {
+        "latitude": -3.7928,
+        "longitude": 102.2607
+      },
+      "timezone": "WIB",
+      "population": 308544
+    }
+  ]
+}
